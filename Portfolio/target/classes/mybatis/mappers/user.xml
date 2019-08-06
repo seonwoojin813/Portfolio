@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  mapper 태그 안에 SQL 작성 -->
+<mapper namespace="user">
+
+
+
+   <!-- 이메일 중복검사를 하기 위한 sql -->
+   <select id="emailcheck" parameterType="java.lang.String" resultType="java.lang.String">
+      select email
+      from sunuser
+      where lower(email) = #{email}
+   </select>
+   
+     <!-- nickname 중복검사를 위한 sql -->
+   <select id="nicknamecheck"
+    parameterType="java.lang.String" 
+    resultType="java.lang.String">
+    select nickname
+    from sunuser
+    where nickname=#{nicknames}
+  </select>
+  
+    <!-- 회원 가입에 사용할 SQL 
+  #안에 작성하는 것은 VO 클래스의 프로퍼티 이름-->
+  <insert id="register"
+  parameterType="gmail.tjsdnwls813.Portfolio.domain.User">
+    insert into sunuser(email, pw, nickname, image)
+    values (#{email}, #{pw}, #{nickname}, #{image})
+  </insert>
+  
+   <!-- 로그인 처리를 하기 위해서 email을 매개변수로 해서 모든
+  컬럼의 데이터를 찾아오는 SQL -->
+  <select id="login"
+  parameterType = "java.lang.String"
+  resultType="gmail.tjsdnwls813.Portfolio.domain.User">
+  select email, pw, nickname, image
+  from sunuser
+  where email = #{email}
+  </select>
+
+     </mapper>

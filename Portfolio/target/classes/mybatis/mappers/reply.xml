@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그 안에 SQL을 작성 -->
+<mapper namespace="reply">
+
+	<!-- 댓글 저장하는 SQL -->
+	<insert id="register" parameterType="Reply">
+		insert into sunreply(
+		rno, replytext, email, nickname, bno)
+		values(replyseq.nextval, #{replytext}, #{email}, #{nickname}, #{bno})
+	</insert>
+
+	<!-- 글번호에 해당하는 댓글 가져오기 -->
+	<select id="list" parameterType="java.lang.Integer"
+		resultType="Reply">
+		select *
+		from sunreply
+		where bno = #{bno}
+		order by regdate desc
+	</select>
+
+	<!-- 댓글 번호를 가지고 댓글을 삭제하는 SQL -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from sunreply
+		where rno = #{rno}
+	</delete>
+
+	<!-- 댓글 번호를 가지고 댓글 내용을 수정하는 SQL -->
+	<update id="update" parameterType="Reply">
+		update sunreply
+		set replytext = #{replytext}, regdate =sysdate
+		where rno = #{rno}
+	</update>
+
+</mapper>
